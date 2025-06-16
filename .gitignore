@@ -1,0 +1,28 @@
+# Ignore virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Ignore your dataset folder
+ptb-xl/
+data/
+
+# Ignore generated outputs and files
+*.csv
+*.npy
+*.log
+*.png
+*.pdf
+grid_search_fnn_results.csv
+fnn_10fold_classification_report.csv
+best_fnn_params.txt
+
+# Ignore models and checkpoints
+*.pt
+*.pth
+checkpoints/
+
+# Ignore notebooks' checkpoint autosaves
+.ipynb_checkpoints/
