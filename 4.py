@@ -38,7 +38,7 @@ BATCH_SIZE = 32
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 results = []
-skf = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+skf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
 grid = list(itertools.product(learning_rates, momentums))
 
 for lr, momentum in tqdm(grid, desc="Grid Search"):
