@@ -106,13 +106,17 @@ for train_idx, test_idx in skf.split(X, y_encoded):
 
     # Initialize model
     model = PaperFNN(X.shape[1], num_classes).to(device)
+
+
     # optimizer = torch.optim.SGD(model.parameters(), lr=LR, momentum=MOMENTUM)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)  # Using Adam for better convergence
-    # loss_weight calculate from the y_train
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
+
+
     class_counts = np.bincount(y_train)
     loss_weight = torch.tensor(class_counts.max() / class_counts, dtype=torch.float32).to(device)
-
     criterion = nn.CrossEntropyLoss(weight=loss_weight)
+    # criterion = nn.CrossEntropyLoss()  # Uncomment if you don't want to use class weights
+
     best_f1_score = 0.0
 
     accuracy_summary = []
@@ -191,8 +195,6 @@ for train_idx, test_idx in skf.split(X, y_encoded):
     fold += 1
 
 
-
-
 # ---------------- Summary ----------------
 # print mean score for each metric across all folds
 print("\n📊 Summary of Metrics Across Folds:")
@@ -242,4 +244,3 @@ specificity = TN / (TN + FP + 1e-8)
 accuracy = (TP + TN) / (TP + TN + FP + FN + 1e-8)
 print(f"\nFinal Evaluation on Test Set:")
 print(f"Accuracy: {accuracy:.4f} | Sensitivity: {sensitivity:.4f} | Specificity: {specificity:.4f} | AUC: {auc:.4f} | F1 Score: {f1_score:.4f}")
-
