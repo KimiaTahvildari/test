@@ -108,7 +108,11 @@ for train_idx, test_idx in skf.split(X, y_encoded):
     model = PaperFNN(X.shape[1], num_classes).to(device)
     # optimizer = torch.optim.SGD(model.parameters(), lr=LR, momentum=MOMENTUM)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)  # Using Adam for better convergence
-    criterion = nn.CrossEntropyLoss()
+    # loss_weight calculate from the y_train
+    class_counts = np.bincount(y_train)
+    loss_weight = torch.tensor(class_counts.max() / class_counts, dtype=torch.float32).to(device)
+
+    criterion = nn.CrossEntropyLoss(weight=loss_weight)
     best_f1_score = 0.0
 
     accuracy_summary = []
